@@ -1,0 +1,91 @@
+/* Styles specific to the diary write entry page */
+
+.main-content-container {
+    width: 90%;
+    max-width: 800px; /* Adjust max-width for the form */
+    margin: 30px auto 60px auto; /* Center content horizontally, space from header and bottom */
+    padding: 30px;
+    background-color: #fff; /* White background */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Consistent shadow */
+}
+
+/* Form Grouping for better spacing */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label {
+    display: block;
+    color: #2c3e50;
+    font-weight: 600;
+    margin-bottom: 8px;
+    font-size: 0.95em;
+}
+
+.form-group input[type="text"],
+.form-group textarea,
+.form-group select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ced4da; /* Light grey border */
+    border-radius: 8px;
+    font-size: 1em;
+    color: #333;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.form-group input[type="text"]:focus,
+.form-group textarea:focus,
+.form-group select:focus {
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle blue shadow on focus */
+    outline: none; /* Remove default outline */
+}
+
+.form-group textarea {
+    resize: vertical; /* Allow vertical resizing only */
+}
+
+/* Ensure buttons-group styles from diaryTheme.css are applied */
+/* Buttons styles are expected to be inherited from diaryTheme.css */
+.buttons-group {
+    display: flex;
+    justify-content: flex-end; /* Align buttons to the right */
+    gap: 15px; /* Space between buttons */
+    margin-top: 30px; /* Space above buttons */
+}
+
+.buttons-group button {
+    min-width: 120px; /* Minimum width for buttons */
+}
+
+/* Responsive adjustments for the write page */
+@media (max-width: 768px) {
+    .main-content-container {
+        width: 95%;
+        padding: 20px;
+        margin: 20px auto 40px auto;
+    }
+
+    .form-group label {
+        font-size: 0.9em;
+    }
+
+    .form-group input[type="text"],
+    .form-group textarea,
+    .form-group select {
+        padding: 10px;
+        font-size: 0.9em;
+    }
+
+    .buttons-group {
+        flex-direction: column; /* Stack buttons vertically on smaller screens */
+        gap: 10px;
+    }
+
+    .buttons-group button {
+        width: 100%; /* Full width for stacked buttons */
+        padding: 12px;
+    }
+}

@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diary - Entries</title>
+    <link rel="stylesheet" th:href="@{/CSS/diaryTheme.css}">
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script>
+    window.addEventListener('pageshow', function(event) {
+        // Check if the page was restored from the Back-Forward Cache
+        if (event.persisted) {
+        	// Ask to server-side about whether session is true or false
+            window.location.reload(true);
+        }
+    });
+    // Control the navbar
+    function orderByCategory (text) {
+	 	const tableTr = $('tbody[id=entryTable] tr');
+	 	$.each(tableTr, function(index, element) {
+			if (text == "Show All") {
+				element.hidden = false;
+			} else {
+		 		if (element.id.includes(text)) {
+		 			element.hidden = false;
+		 		} else if (!element.id.includes(text)) {
+		 			element.hidden = true;
+		 		}
+			}
+	 	})
+    }
+	function deleteSubmit (reg_id, author) {
+ 		if(confirm('Are you sure you want to delete this entry?')) {
+ 			const reg_id_input = document.getElementById("input_id");
+			reg_id_input.value = reg_id;
+			const author_input = document.getElementById("input_author");
+			author_input.value = author;
+			document.getElementById("diaryForm").submit()
+			//const diaryform = $('diaryForm');
+			//diaryform.submit();
+		} else {
+			return;}
+   	}
+    </script>
+</head>
+
+<body th:object=${diaryForm}>
+    <header>
+        <nav>
+            <ul>
+                <li><a th:onclick="|location.href='@{/Diary?session=true}'|">Diary</a></li>
+                <li><a th:href="@{/diary-main}">MyPage</a></li>
+                <li><a th:href="@{/logOut}">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="user-profile">
+            <div class="user-icon">JD</div> <span class="user-name" th:text="*{user_profile_name}"></span>
+        </div>
+    </header>
+
+    <div class="page-layout-container">
+        <aside class="left-nav">
+            <h3>Categories</h3>
+            <ul th:each="categories : ${diaryForm.categories}">
+            	<li><a onclick="orderByCategory(this.text)" th:text="${categories}"></a></li>
+            </ul>
+
+            <h3>Series</h3>
+            <ul th:each="series: ${diaryForm.series}">
+                <li><a onclick="orderByCategory(this.text)" th:text="${series}"></a></li>
+            </ul>
+        </aside>
+
+        <div class="container-articles main-content">
+            <div class="header-with-button">
+                <h2>My Diary Entries</h2>
+                <button type="button" class="primary" th:onclick="|location.href='@{/Diary/Write(userName=${diaryForm.user_profile_name})}'|">Write New Entry</button>
+            </div>
+
+            <div class="alert-container">
+            	<span class="error-message" th:text="*{errorMsg}"></span>
+            </div>
+
+            <section class="diary-entries">
+	            <form th:object="${diaryForm}" th:action="@{/Diary/Delete}" th:method="post" id="diaryForm">
+					<input type="hidden" id="input_id" th:field="*{reg_id}">
+	                <input type="hidden" id="input_author" th:field="*{author}">
+	                <table class="diary-entries-table">
+	                    <thead>
+	                        <tr>
+	                            <th>#</th>
+	                            <th>Title</th>
+	                            <th>Author</th>
+	                            <th>Tags</th>
+	                            <th>Category</th>
+	                            <th>Series</th>
+	                            <th>Added Date</th>
+	                            <th>Updated Date</th>
+	                            <th>Actions</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody id="entryTable">
+	                        <tr th:each="diaryLineForm, status: ${diaryForm.diaryLineForm}" th:id="|${diaryLineForm.category}, ${diaryLineForm.series}|">
+	                        	<td data-label="#" th:text="${diaryLineForm.reg_id}" th:id="|#${status.index}|"></td>
+	                        	<td data-label="Title" th:text="${diaryLineForm.title}" th:id="${status.index}" th:onchange="lengthCheck()"></td>
+	                        	<td data-label="Author" th:text="${diaryLineForm.author}" th:id="${status.index}"></td>
+	                        	<td data-label="Tags" th:text="${diaryLineForm.tag}" th:id="${status.index}"></td>
+	                        	<td data-label="Category" th:text="${diaryLineForm.category}" th:name="${diaryLineForm.category}" th:id="${status.index}"></td>
+	                        	<td data-label="Series" th:text="${diaryLineForm.series}" th:id="${status.index}"></td>
+	                        	<td data-label="Added Date" th:text="${diaryLineForm.reg_sys_date}" th:id="${status.index}"></td>
+	                        	<td data-label="Updated Date" th:text="${diaryLineForm.upd_sys_date}" th:id="${status.index}"></td>
+	                        	<td data-label="Actions" class="entry-actions-cell">
+	                                <button type="button" class="tertiary" th:id="|Read${status.index}|" th:onclick="|location.href='@{/Diary/Detail(Id=${diaryLineForm.reg_id}, userName=${diaryForm.user_profile_name}, series=${diaryLineForm.series})}'|">Read More</button>
+	                                <button type="button" class="secondary" th:id="${status.index}">Edit</button>
+	                                <button type="button" class="danger" th:id="${status.index}" th:attr="onclick=|deleteSubmit('${diaryLineForm.reg_id}', '${diaryLineForm.author}')|">Delete</button>
+	                            </td>
+	                        </tr>
+	                    	</tbody>
+	                	</table>
+	                </form>
+            </section>
+        </div>
+    </div>
+</body>
+<script>
+</script>
+</html>

@@ -1,0 +1,437 @@
+/* Base styles for body and universal box-sizing */
+body {
+    font-family: 'Inter', sans-serif; /* Using Inter for a modern look */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Light grey background */
+    color: #333; /* Default text color */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Smoother fonts */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+/* Header Styles (common to all pages) */
+header {
+    background-color: #6c757d; /* Gray background for header */
+    color: white;
+    padding: 15px 30px; /* More padding */
+    display: flex;
+    justify-content: space-between; /* This will push nav and user-profile to ends */
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%; /* Ensure it spans the full width, acting as a "long box" */
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 25px; /* Spacing between navigation items */
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600; /* Slightly bolder font */
+    padding: 5px 0;
+    transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+header nav ul li a:hover,
+header nav ul li a:focus {
+    color: #a2d2ff; /* Lighter blue on hover/focus */
+}
+
+/* Styles for user profile in header (specific to diary page) */
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* Space between icon and name */
+}
+
+.user-profile .user-icon {
+    width: 35px;
+    height: 35px;
+    background-color: #a2d2ff; /* Light blue for user icon */
+    border-radius: 50%; /* Make it circular */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #333; /* Icon color */
+    font-weight: bold;
+    font-size: 1.1em;
+    overflow: hidden; /* Ensures content stays within circle */
+}
+
+.user-profile .user-name {
+    color: white;
+    font-weight: 600;
+}
+
+/* New Layout for Sidebar and Main Content (specific to diary page) */
+.page-layout-container {
+    display: flex;
+    margin-top: 30px; /* Space from header */
+    padding: 0 30px; /* Horizontal padding for the whole layout */
+    gap: 30px; /* Space between sidebar and main content */
+    align-items: flex-start; /* Align items to the top */
+}
+
+.left-nav {
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    width: 220px; /* Fixed width for the sidebar */
+    padding: 25px;
+    background-color: #fff; /* White background for sidebar */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 60px; /* Ensure space at the bottom */
+}
+
+.left-nav h3 {
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    font-size: 1.3em;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.left-nav ul {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.left-nav ul li {
+    margin-bottom: 10px;
+}
+
+.left-nav ul li a {
+    color: #555;
+    text-decoration: none;
+    font-weight: 500;
+    display: block;
+    padding: 8px 10px;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.left-nav ul li a:hover,
+.left-nav ul li a:focus {
+    background-color: #e9ecef;
+    color: #007bff;
+}
+
+/* Container Articles (main content area for diary) */
+.container-articles {
+    flex-grow: 1; /* Allows it to take up remaining space */
+    max-width: calc(100% - 250px); /* Adjust max-width to account for sidebar */
+    margin: 0 30px 60px 0; /* Adjusted: Removed top margin to align with left-nav */
+    padding: 30px;
+    background-color: #e9ecef; /* Lighter gray background for the login section */
+    border-radius: 12px; /* More rounded corners */
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); /* More prominent shadow */
+}
+
+/* Main Content Area Styles (for diary pages) */
+.main-content {
+    padding: 30px; /* Consistent padding */
+    background-color: #fff; /* White background for the main content area */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08); /* Slightly lighter shadow than login form */
+}
+
+/* Heading Styles (common to all pages) */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 2em; /* Larger heading */
+}
+
+.header-with-button {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 25px;
+    padding-bottom: 15px; /* Add some space below the header */
+    border-bottom: 1px solid #eee; /* A subtle separator */
+}
+
+.header-with-button h2 {
+    margin: 0; /* Remove default margin for this specific h2 */
+    font-size: 2em; /* Consistent with your h2 size */
+    color: #2c3e50;
+}
+
+/* Button Group Styles (common to all pages, needed for diary buttons) */
+.buttons-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: space-between;
+    gap: 10px; /* Gap between buttons */
+    margin-top: 25px;
+}
+
+.buttons-group button {
+    flex: 1; /* Allow buttons to grow and shrink */
+    min-width: 150px; /* Minimum width for buttons */
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px; /* Rounded buttons */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons-group button:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.buttons-group button.primary {
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+
+.buttons-group button.primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.buttons-group button.secondary {
+    background-color: #6c757d; /* Grey */
+    color: white;
+}
+
+.buttons-group button.secondary:hover {
+    background-color: #545b62; /* Darker grey on hover */
+}
+
+.buttons-group button.tertiary {
+    background-color: #ffc107; /* Yellow */
+    color: #333;
+}
+
+.buttons-group button.tertiary:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+}
+
+.buttons-group button.danger { /* New danger button type */
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.buttons-group button.danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Alert Styles (common to all pages, needed for diary alerts) */
+.alert-container {
+    margin-bottom: 25px; /* Space between alerts and content */
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px; /* Slightly more rounded alerts */
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 15px; /* Space between multiple alerts if they appear */
+}
+
+.alert-success {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb; /* Green border */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Red border */
+}
+
+.alert-warning {
+    background-color: #fff3cd; /* Light yellow */
+    color: #856404; /* Dark yellow text */
+    border: 1px solid #ffeeba; /* Yellow border */
+}
+
+.alert-info {
+    background-color: #d1ecf1; /* Light blue */
+    color: #0c5460; /* Dark blue text */
+    border: 1px solid #bee5eb; /* Blue border */
+}
+
+/* Error Message (common to all pages) */
+.error-message {
+    color: #dc3545; /* Bootstrap red */
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: block; /* Ensures it's on its own line */
+}
+
+/* Styles for the diary entry table */
+.diary-entries-table {
+    width: 100%;
+    border-collapse: collapse; /* Collapse borders for a cleaner look */
+    margin-top: 25px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05); /* Subtle table shadow */
+    border-radius: 8px; /* Rounded corners for the table */
+    overflow: hidden; /* Ensures rounded corners apply to content */
+}
+
+.diary-entries-table th,
+.diary-entries-table td {
+    padding: 15px;
+    text-align: left;
+    border-bottom: 1px solid #e0e0e0; /* Light border for rows */
+}
+
+.diary-entries-table th {
+    background-color: #f8f9fa; /* Light grey background for header */
+    color: #495057; /* Darker text for headers */
+    font-weight: 600; /* Bolder header text */
+    text-transform: uppercase; /* Uppercase headers */
+    font-size: 0.9em;
+}
+
+.diary-entries-table tbody tr:nth-child(even) {
+    background-color: #fcfcfc; /* Slightly different background for even rows */
+}
+
+.diary-entries-table tbody tr:hover {
+    background-color: #e9ecef; /* Highlight row on hover */
+    cursor: pointer;
+}
+
+.diary-entries-table .entry-title {
+    color: #007bff; /* Primary blue for titles */
+    font-weight: 500;
+}
+
+.diary-entries-table .entry-summary {
+    color: #555;
+    font-size: 0.95em;
+}
+
+.diary-entries-table .entry-author,
+.diary-entries-table .entry-date {
+    color: #777;
+    font-size: 0.9em;
+}
+
+.diary-entries-table .entry-actions-cell {
+    white-space: nowrap; /* Prevent buttons from wrapping */
+    text-align: left; /* Align action buttons to the right */
+}
+
+.diary-entries-table .entry-actions-cell button {
+    margin-left: 8px; /* Space between action buttons */
+    padding: 8px 12px;
+    font-size: 0.85em;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+/* Style for user icon in table */
+.table-user-icon {
+    width: 20px;
+    height: 20px;
+    background-color: #d1ecf1; /* Lighter blue for table icon */
+    border-radius: 50%;
+    display: inline-flex; /* Use inline-flex to align with text */
+    align-items: center;
+    justify-content: center;
+    color: #0c5460; /* Darker blue for icon content */
+    font-size: 0.8em;
+    font-weight: bold;
+    margin-right: 8px; /* Space between icon and name */
+    vertical-align: middle; /* Align icon vertically with text */
+    flex-shrink: 0; /* Prevent icon from shrinking on small screens */
+}
+
+/* Responsive Adjustments for diary pages */
+@media (max-width: 992px) { /* Adjust breakpoint for sidebar collapse */
+    .page-layout-container {
+        flex-direction: column; /* Stack sidebar and main content vertically */
+        padding: 0 15px; /* Reduce horizontal padding */
+        gap: 15px; /* Reduce gap */
+    }
+
+    .left-nav {
+        width: 100%; /* Full width for sidebar on small screens */
+        margin-right: 0; /* Remove right margin */
+        margin-bottom: 15px; /* Add bottom margin when stacked */
+    }
+
+    .container-articles {
+        max-width: 100%; /* Full width for main content */
+        margin: 0 0 30px 0; /* Adjusted: Removed top margin when stacked */
+    }
+}
+
+@media (max-width: 768px) {
+    .header-with-button {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 15px;
+    }
+    .header-with-button h2 {
+        margin-bottom: 0;
+    }
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    header nav ul li {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    header nav ul li a {
+        display: block;
+        padding: 8px 0;
+        text-align: center;
+    }
+
+    .main-content { /* Applied to diary main content */
+        margin: 30px 15px;
+        padding: 20px;
+    }
+
+    .buttons-group {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+    }
+
+    .buttons-group button {
+        width: 100%; /* Full width buttons */
+        min-width: unset;
+    }
+
+    .user-profile {
+        width: 100%;
+        justify-content: flex-end; /* Align user profile to the right on small screens */
+        margin-top: 10px;
+    }
+}

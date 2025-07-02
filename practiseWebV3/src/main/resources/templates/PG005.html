@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diary - Detail</title>
+    <!-- Links to existing CSS files -->
+    <link rel="stylesheet" th:href="@{/CSS/diaryTheme.css}">
+    <link rel="stylesheet" th:href="@{/CSS/diaryDetailTheme.css}"> <!-- New CSS for this page -->
+</head>
+<body th:object="${diaryDetailForm}">
+    <header>
+        <nav>
+            <ul>
+                <li><a th:href="@{/Diary}">Diary</a></li>
+                <li><a th:href="@{/diary-main}">MyPage</a></li>
+                <li><a th:href="@{/logOut}">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="user-profile">
+            <div class="user-icon">JD</div> <span class="user-name" th:text="*{user_profile_name}"></span>
+        </div>
+    </header>
+    <div class="page-layout-container">
+        <!-- Left Navigation for Series Entries -->
+        <div class="left-nav-sidebar">
+            <div class="diary-series-nav">
+                <h3>Others In Series</h3>
+                <!-- if series is empty -->
+                <span style="display: none;" th:text="${seriesFlag}" id="seriesFlag"></span>
+                <div class="series-empty" style="display: none;" id="seriesEmpty">Series is empty</div>
+
+                <!-- Example: if series has entries -->
+                <ul class="series-list" id="seriesNotEmpty" th:each="diaryDetailLineForm, status: ${diaryDetailForm.diaryDetailLineFormList}"  >
+                	<li class="series-item"><a th:onclick="|location.href='@{/Diary/Detail(Id=${diaryDetailLineForm.reg_id}, userName=${diaryDetailForm.author}, series=${diaryDetailForm.series})}'|" th:text="|Entry${diaryDetailLineForm.reg_id}: ${diaryDetailLineForm.title}|"></a></li>
+<!--                     <li class="series-item"><a href="#entry-1">Entry 1: My First Day</a></li>
+                    <li class="series-item"><a href="#entry-2">Entry 2: A New Beginning</a></li>
+                    <li class="series-item current-entry"><a href="#current-entry">Entry 3: Today's Thoughts (Current)</a></li>
+                    <li class="series-item">
+                        <a href="#entry-4">Entry 4: Moving Forward</a>
+                        <ul class="series-children">
+                            <li class="series-item"><a href="#entry-4-1">Sub-Entry 4.1: Planning</a></li>
+                            <li class="series-item"><a href="#entry-4-2">Sub-Entry 4.2: Execution</a></li>
+                        </ul>
+                    </li>
+                    <li class="series-item"><a href="#entry-5">Entry 5: Future Plans</a></li>
+                    <li class="series-item"><a href="#entry-6">Entry 6: Reflections</a></li>
+                    <li class="series-item"><a href="#entry-7">Entry 7: New Discoveries</a></li>
+                    <li class="series-item"><a href="#entry-8">Entry 8: Weekly Review</a></li> -->
+                </ul>
+            </div>
+        </div>
+	    <div class="main-content">
+	        <div class="diary-detail-container">
+	            <h2 class="diary-title" th:text="${diaryDetailForm.title}"></h2>
+	            <div class="diary-meta">
+	                <span class="diary-author" th:text="|By: ${diaryDetailForm.author}|"></span>
+	                <span class="diary-date" th:text="|Date: ${diaryDetailForm.upd_sys_time}|"></span>
+	            </div>
+	            <div class="diary-content">
+	            	<p th:text="${diaryDetailForm.article}"></p>
+	            </div>
+	            <div class="buttons-group">
+	                <button class="secondary" th:onclick="|location.href='@{/Diary?session=true}'|">Back to List</button>
+	                <button class="primary">Edit Entry</button>
+	                <button class="danger">Delete Entry</button>
+	            </div>
+	        </div>
+	    </div>
+    </div>
+</body>
+</html>

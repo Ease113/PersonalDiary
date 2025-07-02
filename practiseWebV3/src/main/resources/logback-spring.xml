@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<!-- default settings for Spring -->
+    <include resource="org/springframework/boot/logging/logback/defaults.xml"/>
+    <!-- make logs appear in eclipse command line -->
+    <include resource="org/springframework/boot/logging/logback/console-appender.xml"/>
+	<!-- Custom log direction, so it means search the "APP_LOG_DIR" which is already set in env settings -->
+    <property name="LOG_DIR" value="${APP_LOG_DIR:-./logs}"/>
+	
+	<!-- Core component for stacking log
+		 the name of application.log (between the file) is the current name of the log file that now writing -->
+    <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <!-- <file>${LOG_DIR}/application.log</file> -->
+        <file>C:/Applogs/application.log</file>
+		
+		<!-- Configures how log files are "rolled" (archived). -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+        	<!-- 
+        	* %d: daily rollover
+        	* {yyyy-mm-dd}: file name's that describe that the it's file name
+        	* i: define an index for files rolled with in a single period -> important if you use "maxFileSize" components
+        	* .gz: compressed archive log files
+        	 -->
+            <fileNamePattern>C:/Applogs/archived/application.%d{yyyy-MM-dd}.%i.log.gz</fileNamePattern>
+            <!-- How many history do you wanna keep in specific period -->>
+            <maxHistory>30</maxHistory>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <maxFileSize>10MB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+		
+		<!--  Defines the format of the log messages. -->
+        <encoder>
+            <pattern>%d{yyyy-MM-dd HH:mm:ss.SSS} %-5level [%thread] %logger{39} - %msg%n</pattern>
+        </encoder>
+		<!-- ensure that log messages are written to diary immediately, if it's true -->
+        <immediateFlush>true</immediateFlush>
+    </appender>
+
+    <root level="INFO">	
+        <appender-ref ref="CONSOLE"/> <appender-ref ref="FILE"/>    </root>
+
+    <logger name="com.example.myapp" level="DEBUG" additivity="false">
+        <appender-ref ref="CONSOLE"/>
+        <appender-ref ref="FILE"/>
+    </logger>
+
+</configuration>

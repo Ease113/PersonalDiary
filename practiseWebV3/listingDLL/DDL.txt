@@ -1,0 +1,16 @@
+CREATE USER_INFO TABLE
+---------------------------------------------------------
+CREATE TABLE USER_INFO (
+	REG_Id int AUTO_INCREMENT NOT NULL primary key,
+    user_Id VARCHAR(50) NOT NULL,
+    passWord VARCHAR(20) NOT NULL,
+    user_Icon BINARY,
+    UPD_SYS_TIME DATETIME,
+    REG_SYS_TIME DATETIME
+    )
+
+106동 ~ 110동 -> 작업 다시 하고 드리고
+121 ~ 124동 지상층 -> 세대가 필요
+208 ~ 210동 -> 세대가 필요
+
+

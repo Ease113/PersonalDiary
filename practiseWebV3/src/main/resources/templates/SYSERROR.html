@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>System Error Page</title>
+    <link rel="stylesheet" th:href="@{/CSS/mainTheme.css}">
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                <li><a th:href="@{/Diary}">Diary</a></li>
+                <li><a th:href="@{/diary-main}">MyPage</a></li>
+                <li><a th:href="@{/}">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="container">
+        <h2>System Error has been occurred!!</h2>
+          <div class="form-group">
+			<span>System Error has been occurred</span>
+			<span>Please return to Login Page and try again</span>
+          </div>
+    </div>
+
+    <script>
+        // This script section is intentionally left blank as per your requirement.
+        // You can add your JavaScript logic here for the Login/Logout button change
+        // based on login status, and other dynamic functionalities.
+    </script>
+</body>
+</html>

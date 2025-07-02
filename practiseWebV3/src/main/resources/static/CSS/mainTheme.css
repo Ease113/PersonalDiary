@@ -1,0 +1,268 @@
+/* Base styles for body and universal box-sizing */
+body {
+    font-family: 'Inter', sans-serif; /* Using Inter for a modern look */
+    margin: 0;
+    padding: 0;
+    background-color: #f0f2f5; /* Light grey background */
+    color: #333; /* Default text color */
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased; /* Smoother fonts */
+    -moz-osx-font-smoothing: grayscale;
+}
+
+*, *::before, *::after {
+    box-sizing: border-box; /* Include padding and border in element's total width and height */
+}
+
+/* Header Styles (common to all pages) */
+header {
+    background-color: #6c757d; /* Gray background for header */
+    color: white;
+    padding: 15px 30px; /* More padding */
+    display: flex;
+    justify-content: space-between; /* This will push nav and user-profile to ends */
+    align-items: center;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Subtle shadow */
+    width: 100%; /* Ensure it spans the full width, acting as a "long box" */
+}
+
+header nav ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: flex;
+}
+
+header nav ul li {
+    margin-left: 25px; /* Spacing between navigation items */
+}
+
+header nav ul li a {
+    color: white;
+    text-decoration: none;
+    font-weight: 600; /* Slightly bolder font */
+    padding: 5px 0;
+    transition: color 0.3s ease; /* Smooth transition for hover */
+}
+
+header nav ul li a:hover,
+header nav ul li a:focus {
+    color: #a2d2ff; /* Lighter blue on hover/focus */
+}
+
+/* Container Styles for Login/Registration Forms */
+.container {
+    max-width: 600px;
+    margin: 60px auto;
+    padding: 30px;
+    background-color: #e9ecef;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Heading Styles (common to all pages) */
+h2 {
+    text-align: center;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-size: 2em; /* Larger heading */
+}
+
+/* Form Group Styles */
+.form-group {
+    margin-bottom: 20px;
+}
+
+.form-group label span{
+    display: inline; /* Ensures label is on its own line, If you want to display label and input on the same line, use inline instead */
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: #555;
+}
+
+.form-group p{
+	white-space: pre-line;
+}
+
+.form-group input[type="text"],
+.form-group input[type="password"],
+.form-group input[type="email"],
+.form-group input[type="number"],
+.form-group textarea { /* Merged textarea into this group */
+    width: 100%; /* Ensures inputs and textarea take full width */
+    padding: 12px;
+    border: 1px solid #ced4da; /* Light grey border */
+    border-radius: 6px; /* Rounded input fields */
+    box-sizing: border-box;
+    font-size: 1em;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+    background-color: #ffffff; /* Keep input fields white for contrast */
+}
+
+.form-group input[type="text"]:focus,
+.form-group input[type="password"]:focus,
+.form-group input[type="email"]:focus,
+.form-group input[type="number"]:focus,
+.form-group textarea:focus { /* Merged textarea focus into this group */
+    border-color: #007bff; /* Blue border on focus */
+    box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25); /* Subtle blue glow on focus */
+    outline: none; /* Remove default outline */
+}
+
+.form-group textarea {
+    min-height: 150px; /* Minimum height for textarea */
+    resize: vertical; /* Allow vertical resizing */
+}
+
+/* Button Group Styles (common to all pages) */
+.buttons-group {
+    display: flex;
+    flex-wrap: wrap; /* Allow buttons to wrap on smaller screens */
+    justify-content: space-between;
+    gap: 10px; /* Gap between buttons */
+    margin-top: 25px;
+}
+
+.buttons-group button {
+    flex: 1; /* Allow buttons to grow and shrink */
+    min-width: 120px; /* Minimum width for buttons */
+    padding: 12px 18px;
+    border: none;
+    border-radius: 8px; /* Rounded buttons */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 600;
+    transition: background-color 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.buttons-group button:hover {
+    transform: translateY(-2px); /* Slight lift on hover */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+.buttons-group button.primary {
+    background-color: #007bff; /* Blue */
+    color: white;
+}
+
+.buttons-group button.primary:hover {
+    background-color: #0056b3; /* Darker blue on hover */
+}
+
+.buttons-group button.secondary {
+    background-color: #6c757d; /* Grey */
+    color: white;
+}
+
+.buttons-group button.secondary:hover {
+    background-color: #545b62; /* Darker grey on hover */
+}
+
+.buttons-group button.tertiary {
+    background-color: #ffc107; /* Yellow */
+    color: #333;
+}
+
+.buttons-group button.tertiary:hover {
+    background-color: #e0a800; /* Darker yellow on hover */
+}
+
+.buttons-group button.danger { /* New danger button type */
+    background-color: #dc3545; /* Red */
+    color: white;
+}
+
+.buttons-group button.danger:hover {
+    background-color: #c82333; /* Darker red on hover */
+}
+
+/* Alert Styles (common to all pages) */
+.alert-container {
+    margin-bottom: 25px; /* Space between alerts and content */
+}
+
+.alert {
+    padding: 15px 20px;
+    border-radius: 8px; /* Slightly more rounded alerts */
+    font-weight: 500;
+    line-height: 1.5;
+    margin-bottom: 15px; /* Space between multiple alerts if they appear */
+}
+
+.alert-success {
+    background-color: #d4edda; /* Light green */
+    color: #155724; /* Dark green text */
+    border: 1px solid #c3e6cb; /* Green border */
+}
+
+.alert-danger {
+    background-color: #f8d7da; /* Light red */
+    color: #721c24; /* Dark red text */
+    border: 1px solid #f5c6cb; /* Red border */
+}
+
+.alert-warning {
+    background-color: #fff3cd; /* Light yellow */
+    color: #856404; /* Dark yellow text */
+    border: 1px solid #ffeeba; /* Yellow border */
+}
+
+.alert-info {
+    background-color: #d1ecf1; /* Light blue */
+    color: #0c5460; /* Dark blue text */
+    border: 1px solid #bee5eb; /* Blue border */
+}
+
+/* Error Message (common to all pages) */
+.error-message {
+    color: #dc3545; /* Bootstrap red */
+    font-size: 0.85em;
+    margin-top: 5px;
+    display: block; /* Ensures it's on its own line */
+}
+
+/* Responsive Adjustments for login/registration pages */
+@media (max-width: 768px) {
+    /* No specific changes for login/registration pages at this breakpoint,
+       as header adjustments are handled in the 600px breakpoint for all pages. */
+}
+
+@media (max-width: 600px) {
+    header {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 10px 20px;
+    }
+
+    header nav ul {
+        flex-direction: column;
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    header nav ul li {
+        margin: 5px 0;
+        width: 100%;
+    }
+
+    header nav ul li a {
+        display: block;
+        padding: 8px 0;
+        text-align: center;
+    }
+
+    .container { /* Applied to login/registration containers */
+        margin: 30px 15px;
+        padding: 20px;
+    }
+
+    .buttons-group {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+    }
+
+    .buttons-group button {
+        width: 100%; /* Full width buttons */
+        min-width: unset;
+    }
+}

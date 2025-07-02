@@ -1,0 +1,256 @@
+/* diaryDetailTheme.css */
+
+/* Ensure HTML and body take full height to enable full-page scrolling */
+html, body {
+    height: 100%; /* Make html and body take full viewport height */
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden; /* Prevent horizontal scrolling */
+}
+
+/* Overall page layout container for sidebar and main content */
+.page-layout-container {
+    display: flex; /* Use flexbox for side-by-side layout */
+    padding: 30px; /* Consistent padding around the content area */
+    gap: 30px; /* Space between sidebar and main content */
+    align-items: flex-start; /* Align items to the top */
+    min-height: calc(100vh - 90px); /* Adjust height to fill viewport, accounting for header */
+    /* Removed overflow-y: auto here, as scrolling will now be on the entire page (body) */
+    flex-wrap: wrap; /* Allow wrapping on smaller screens */
+}
+
+/* Left Sidebar for Series Navigation */
+.left-nav-sidebar {
+    flex-shrink: 0; /* Prevent sidebar from shrinking */
+    width: 280px; /* Fixed width for the sidebar */
+    padding: 20px;
+    background-color: #fff; /* White background for sidebar */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    margin-bottom: 30px; /* Space at the bottom */
+    overflow-y: auto; /* Allow scrolling *within* the sidebar if its content is long */
+    max-height: calc(100vh - 120px); /* Max height for sidebar, adjusted for header and top offset */
+
+    /* New styles for sticky positioning */
+    position: sticky; /* Make the sidebar sticky */
+    top: 30px; /* Stick to this distance from the top of the viewport when scrolled */
+    align-self: flex-start; /* Ensure it aligns to the start of the flex container */
+    z-index: 10; /* Ensure it stays on top of other content if overlaps */
+}
+
+.diary-series-nav {
+    /* Styles for the navigation content inside the sidebar */
+    background-color: #fff; /* White background for the navigation */
+    border-radius: 8px; /* Slightly less rounded than outer container */
+    padding: 0; /* No internal padding, padding is handled by .left-nav-sidebar */
+    box-shadow: none; /* No shadow, handled by .left-nav-sidebar */
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.diary-series-nav h3 {
+    font-size: 1.5em;
+    color: #2c3e50;
+    margin-top: 0;
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+}
+
+.series-empty {
+    text-align: center;
+    color: #777;
+    padding: 20px;
+    font-style: italic;
+}
+
+.series-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    /* max-height and overflow-y are handled by .left-nav-sidebar now */
+}
+
+.series-item {
+    margin-bottom: 5px;
+}
+
+.series-item a {
+    display: block;
+    padding: 8px 10px;
+    color: #007bff;
+    text-decoration: none;
+    border-radius: 6px;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.series-item a:hover,
+.series-item a:focus {
+    background-color: #e9ecef;
+    color: #0056b3;
+}
+
+.series-item.current-entry a {
+    background-color: #d1ecf1; /* Highlight current entry */
+    color: #0c5460;
+    font-weight: bold;
+}
+
+/* Pyramid/Child-appended structure */
+.series-children {
+    list-style: none;
+    padding-left: 20px; /* Indent child entries */
+    margin-top: 5px;
+    border-left: 2px solid #ccc; /* Visual line for hierarchy */
+}
+
+.series-children .series-item a {
+    font-size: 0.95em; /* Slightly smaller font for children */
+    padding-left: 15px; /* Further indent child links */
+}
+
+
+/* Main Content Area Styles (for diary detail pages) */
+.main-content {
+    flex-grow: 1; /* Allows it to take up remaining space */
+    max-width: calc(100% - 350px); /* Adjust max-width to account for sidebar + gap */
+    padding: 0; /* Remove padding as it's now applied to .page-layout-container */
+    background-color: transparent; /* Make transparent, background is for overall layout */
+    box-shadow: none; /* Remove shadow, it's for the detail container */
+    border-radius: 0; /* Remove border-radius */
+    margin: 0; /* Remove margin as it's part of the flex layout */
+    overflow-y: visible; /* Let the diary-detail-container handle its own scrolling */
+}
+
+.diary-detail-container {
+    background-color: #fff; /* White background for the detail section */
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+    padding: 30px;
+    width: 100%; /* Ensure it takes full width of its parent */
+    margin: 0; /* Remove top/bottom margins, now handled by .page-layout-container's padding */
+    font-family: 'Verdana', sans-serif; /* Set font to Verdana */
+    display: flex;
+    flex-direction: column;
+    /* Removed overflow-y: auto here, as scrolling will now be on the entire page (body) */
+    max-height: unset; /* Let content determine height, no fixed max-height */
+}
+
+
+.diary-title {
+    font-size: 2.2em;
+    color: #2c3e50;
+    margin-bottom: 15px;
+    text-align: center;
+    border-bottom: none; /* Remove the border */
+    padding-bottom: 0;
+}
+
+.diary-meta {
+    text-align: center;
+    color: #777;
+    font-size: 0.9em;
+    margin-bottom: 30px;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 20px;
+}
+
+.diary-meta span {
+    margin: 0 10px;
+}
+
+.diary-content {
+    font-size: 1.1em;
+    line-height: 1.8;
+    color: #444;
+    margin-bottom: 30px;
+    white-space: pre-wrap; /* Preserves whitespace and allows wrapping */
+    word-wrap: break-word; /* Breaks long words */
+}
+
+.diary-content p {
+    margin-bottom: 1em; /* Space between paragraphs */
+}
+
+/* Ensure buttons-group styles from diaryTheme.css are respected */
+.buttons-group {
+    display: flex;
+    justify-content: center; /* Center buttons */
+    gap: 15px; /* Space between buttons */
+    margin-top: 30px;
+}
+
+.buttons-group button {
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1.0em;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    flex-grow: 0; /* Prevent buttons from growing too much */
+    flex-shrink: 0; /* Prevent buttons from shrinking too much */
+}
+
+/* Responsive adjustments */
+@media (max-width: 992px) { /* Adjust breakpoint for sidebar collapse */
+    .page-layout-container {
+        flex-direction: column; /* Stack sidebar and main content vertically */
+        padding: 15px; /* Reduce horizontal padding */
+        gap: 15px; /* Reduce gap */
+    }
+
+    .left-nav-sidebar {
+        width: 100%; /* Full width for sidebar on small screens */
+        margin-bottom: 15px; /* Add bottom margin when stacked */
+        max-height: 300px; /* Limit height of stacked sidebar for better viewing */
+        position: static; /* Remove sticky positioning when stacked */
+        top: unset; /* Remove top offset */
+    }
+
+    .main-content {
+        max-width: 100%; /* Full width for main content when stacked */
+        padding: 0; /* No padding needed here, handled by page-layout-container */
+    }
+
+    .diary-detail-container {
+        margin: 0; /* Remove margins, flex handles spacing */
+        max-height: unset; /* Let content determine height when stacked */
+    }
+}
+
+@media (max-width: 768px) {
+    .page-layout-container {
+        padding: 15px;
+    }
+
+    .diary-detail-container {
+        padding: 20px;
+    }
+
+    .diary-title {
+        font-size: 1.8em;
+    }
+
+    .diary-content {
+        font-size: 1.0em;
+    }
+
+    .buttons-group {
+        flex-direction: column; /* Stack buttons vertically on small screens */
+        gap: 10px;
+    }
+
+    .buttons-group button {
+        width: 100%; /* Full width for stacked buttons */
+    }
+}
+
+@media (max-width: 480px) {
+    .diary-title {
+        font-size: 1.5em;
+    }
+
+    .diary-meta {
+        font-size: 0.8em;
+    }
+}

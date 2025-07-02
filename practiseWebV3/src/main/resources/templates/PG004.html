@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Diary - Write Entry</title>
+    <link rel="stylesheet" th:href="@{/CSS/diaryTheme.css}">
+    <link rel="stylesheet" th:href="@{/CSS/diaryWriteTheme.css}">
+    <link rel="stylesheet" th:href="@{/CSS/editModalTheme.css}"> <!-- Link to the new modal specific CSS -->
+    <script src="/js/jquery-3.7.1.min.js"></script>
+    <script src="/js/diaryJs.js"></script>
+    <script>
+    window.addEventListener('pageshow', function(event) {
+        // Check if the page was restored from the Back-Forward Cache
+        if (event.persisted) {
+        	// Ask to server-side about whether session is true or false
+            window.location.reload(true);
+        }
+    });
+    </script>
+</head>
+
+<body th:object="${diaryWriteForm}"> <!-- Assuming a Thymeleaf form object for writing -->
+    <header>
+        <nav>
+            <ul>
+                <li><a th:onclick="|location.href='@{/Diary?session=true}'|">Diary</a></li>
+                <li><a th:href="@{/diary-main}">MyPage</a></li>
+                <li><a th:href="@{/logOut}">Logout</a></li>
+            </ul>
+        </nav>
+        <div class="user-profile">
+            <div class="user-icon">JD</div> <span class="user-name" th:text="*{user_profile_name}" id="user_profile_name"></span>
+        </div>
+    </header>
+
+    <div class="main-content-container"> <!-- New container for the write form -->
+        <div class="header-with-button">
+            <h2>Write New Diary Entry</h2>
+            <!-- No button here as this is the write page itself -->
+        </div>
+
+        <div class="alert-container">
+            <!-- Alerts can be displayed here -->
+        </div>
+
+        <section class="diary-write-form-section">
+            <form th:action="@{/Diary/Write/saveDiary}" th:object="${diaryWriteForm}" method="post" class="diary-form">
+                <!-- Title Input -->
+                <div class="form-group">
+                    <label for="entryTitle">Title</label>
+                    <input type="text" id="entryTitle" th:field="*{title}" placeholder="Enter your diary entry title" required>
+                </div>
+
+                <!-- Content Textarea -->
+                <div class="form-group">
+                    <label for="entryContent">Content</label>
+                    <textarea id="entryContent" th:field="*{content}" rows="15" placeholder="Write your diary entry here..." required></textarea>
+                </div>
+
+                <!-- Tags Input -->
+                <div class="form-group">
+                    <label for="entryTags">Tags (comma-separated)</label>
+                    <input type="text" id="entryTags" th:field="*{tags}" placeholder="e.g., #reflection, #work, #travel">
+                </div>
+
+                <!-- Category Dropdown with Edit Button -->
+                <div class="form-group flex items-end">
+                    <div class="flex-grow">
+                        <label for="entryCategory">Category</label>
+                        <select id="entryCategory" th:field="*{category}" class="w-full"> 
+                            <option value="">Select a Category</option>
+                        </select>
+                    </div>
+                    <button type="button" class="tertiary ml-4 px-4 py-2 rounded-lg font-semibold shadow-sm" onclick="openEditCategoriesModal()">Edit</button>
+                </div>
+
+                <!-- Series Dropdown with Edit Button -->
+                <div class="form-group flex items-end">
+                    <div class="flex-grow">
+                        <label for="entrySeries">Series</label>
+                        <select id="entrySeries" th:field="*{series}" class="w-full">
+                            <option value="">Select a Series</option>
+                        </select>
+                    </div>
+                    <button type="button" class="tertiary ml-4 px-4 py-2 rounded-lg font-semibold shadow-sm" onclick="openEditSeriesModal()">Edit</button>
+                </div>
+                <input type="hidden" th:field="*{user_profile_name}">
+
+                <!-- Action Buttons -->
+                <div class="buttons-group">
+                    <button type="button" class="secondary" th:onclick="|location.href='@{/Diary?session=true}'|">Cancel</button>
+                    <button type="submit" class="primary">Save Entry</button>
+                </div>
+            </form>
+        </section>
+    </div>
+
+    <!-- START: Category Edit Modal (Embedded) -->
+    <div id="editCategoriesModal" class="modal-backdrop">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Categories</h2>
+                <button type="button" class="modal-close-button" onclick="closeEditCategoriesModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group flex">
+                    <input type="text" id="newCategoryName" placeholder="New category name" class="flex-grow">
+                    <button type="button" class="btn-primary ml-3 px-4 py-2 rounded-lg font-semibold shadow-sm" onclick="addCategory()">Add</button>
+                </div>
+                <table class="diary-entries-table">
+	                <thead>
+		                <tr>
+		                    <th>Category</th>
+		                    <th>Diary Counts</th>
+		                    <th>Actions</th>
+		                </tr>
+	                </thead>
+	                <tbody id="categoryList" class="modal-list">
+	                </tbody>
+                </table>
+<!--                 <ul id="categoryList" class="modal-list">
+                </ul> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeEditCategoriesModal()">Close</button>
+                <!-- "Save Changes" button removed as individual add/delete are instant -->
+            </div>
+        </div>
+    </div>
+    <!-- END: Category Edit Modal -->
+
+    <!-- START: Series Edit Modal (Embedded) -->
+    <div id="editSeriesModal" class="modal-backdrop">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Manage Series</h2>
+                <button type="button" class="modal-close-button" onclick="closeEditSeriesModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group flex">
+                    <input type="text" id="newSeriesName" placeholder="New series name" class="flex-grow">
+                    <button type="button" class="btn-primary ml-3 px-4 py-2 rounded-lg font-semibold shadow-sm" onclick="addSeries()">Add</button>
+                </div>
+                <table class="diary-entries-table">
+	                <thead>
+		                <tr>
+		                    <th>Series</th>
+		                    <th>Diary Counts</th>
+		                    <th>Actions</th>
+		                </tr>
+	                </thead>
+	                <tbody id="seriesList" class="modal-list">
+	                </tbody>
+                </table>
+<!--                 <ul id="seriesList" class="modal-list">
+                    Series will be populated by JavaScript
+                </ul> -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeEditSeriesModal()">Close</button>
+                <!-- "Save Changes" button removed as individual add/delete are instant -->
+            </div>
+        </div>
+    </div>
+    <!-- END: Series Edit Modal -->
+    
+    <!-- START: Category Edit Modal (Embedded) -->
+    <!-- <div id="delCategoriesModal" class="modal-backdrop">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2>Delete Categories</h2>
+                <button type="button" class="modal-close-button" onclick="closeEditCategoriesModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group flex">
+                <table class="diary-entries-table">
+	                    <thead>
+	                        <tr>
+	                            <th>#</th>
+	                            <th>Category</th>
+	                            <th>Diary Counts</th>
+	                            <th>Delete Check</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody>
+	                        <tr th:each="categoryDeleteLineForm, status: ${seriesCategoryDeleteForm.categoryDeleteLineForm}" th:id="${status.index}">
+	                        	<td data-labe="#" th:text="${categoryDeleteLineForm.reg_id}" th:id="${status.index}"></td>
+	                        	<td data-labe="Category" th:text="${categoryDeleteLineForm.category}" th:id="${status.index}"></td>
+	                        	<td data-labe="Diary Counts" th:text="${categoryDeleteLineForm.diary_counts}" th:id="${status.index}"></td>
+	                        	<td data-labe="Delete Check" th:value="${categoryDeleteLineForm.Delete}" th:id="${status.index}">
+	                        	<input type="checkbox" th:id="toggleBox${status.index}" onclick="setCheckBox('${status.index}')">
+	                        	</td>
+                          	</tr>
+                   		</tbody>
+                  	</table>
+                    <input type="text" id="newCategoryName" placeholder="New category name" class="flex-grow">
+                    <button type="button" class="btn-primary ml-3 px-4 py-2 rounded-lg font-semibold shadow-sm" onclick="addCategory()">Add</button>
+                    <button type="button" class="btn-primary ml-3 px-4 py-2 rounded-lg font-semibold shadow-sm" onclick="openDelCategoriesModal()">Delete</button>
+                </div>
+                <ul id="categoryList" class="modal-list">
+                </ul>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn-secondary" onclick="closeEditCategoriesModal()">Close</button>
+                "Save Changes" button removed as individual add/delete are instant
+            </div>
+        </div>
+    </div>
+    END: Category Edit Modal -->
+
+</body>
+</html>
