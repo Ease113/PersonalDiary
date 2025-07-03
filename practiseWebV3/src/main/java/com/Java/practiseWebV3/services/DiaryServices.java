@@ -1,5 +1,6 @@
 package com.Java.practiseWebV3.services;
 
+import java.io.UnsupportedEncodingException;
 import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ import com.Java.practiseWebV3.dto.categoryDto;
 import com.Java.practiseWebV3.dto.seriesDto;
 import com.Java.practiseWebV3.forms.diaryDetailForm;
 import com.Java.practiseWebV3.forms.diaryDetailLineForm;
+import com.Java.practiseWebV3.forms.diaryEditForm;
 import com.Java.practiseWebV3.forms.diaryForm;
 import com.Java.practiseWebV3.forms.diaryLineForm;
 import com.Java.practiseWebV3.forms.diaryWriteForm;
@@ -155,7 +157,11 @@ public class DiaryServices {
 		
 		detailForm.setTitle(articleList2.get(0).getTitle());
 		detailForm.setAuthor(articleList2.get(0).getAuthor());
-		detailForm.setUpd_sys_time(articleList2.get(0).getUpd_sys_time().toString());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Date upd_sys_date = sdf.parse(articleList2.get(0).getUpd_sys_time().toString());
+		detailForm.setUpd_sys_time(sdf.format(upd_sys_date));
+		
 		detailForm.setArticle(util.decoder(articleList2.get(0).getArticle()));
 		detailForm.setSeries(diaryDetailform.getSeries());
 		detailForm.setDiaryDetailLineFormList(diaryDetailLineFormList);
@@ -188,6 +194,34 @@ public class DiaryServices {
 		//String encode = Base64.getEncoder().encodeToString((diaryWriteform.getSummary().getBytes()));
 		
 		return diaryWriteform;
+	}
+	
+	public diaryEditForm getEditDetail (diaryEditForm diaryEditform) throws Exception {
+		
+		ArrayList<String> param = new ArrayList<>();
+		utility util = new utility();
+		param.add(diaryEditform.getReg_id().toString());
+		
+		param.add(diaryEditform.getAuthor());
+		
+		articleInfoDto articleDto = diaryDao.selectEditDetail(param);
+		
+		diaryEditform.setTitle(articleDto.getTitle());
+		diaryEditform.setTags(articleDto.getTag());
+		diaryEditform.setArticle(util.decoder(articleDto.getArticle()));
+		diaryEditform.setCategory(articleDto.getCategory());
+		diaryEditform.setSeries(articleDto.getSeries());
+		
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+		Date upd_sys_date = sdf.parse(articleDto.getUpd_sys_time().toString());
+		diaryEditform.setUpd_sys_date(sdf.format(upd_sys_date));
+		
+		Date reg_sys_date = sdf.parse(articleDto.getReg_sys_time().toString());
+		diaryEditform.setReg_sys_date(sdf.format(reg_sys_date));
+		
+		diaryEditform.setUser_profile_name(articleDto.getAuthor());
+		
+		return diaryEditform;
 	}
 
 }

@@ -147,4 +147,18 @@ public class DiaryDao {
 		logger.info(Constant.ENDLOG, className, methodName);
 		return result;
 	}
+	
+	public articleInfoDto selectEditDetail (ArrayList<String> param) throws Exception {
+		
+		ArrayList<articleInfoDto> articleList = new ArrayList<articleInfoDto>();
+		articleInfoDto articleDto= new articleInfoDto();
+		
+		String SQL = utility.replace(sqlList.SQLNB015, param);
+		
+		RowMapper<articleInfoDto> articleInfoDtoMapper = new BeanPropertyRowMapper<articleInfoDto>(articleInfoDto.class);
+		articleList = (ArrayList<articleInfoDto>) jdbcTemplate.query(SQL, articleInfoDtoMapper);
+		articleDto = articleList.get(0);
+		
+		return articleDto;
+	}
 }

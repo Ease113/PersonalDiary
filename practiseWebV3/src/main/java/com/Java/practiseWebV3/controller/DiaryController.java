@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.Java.practiseWebV3.common.Constant;
 import com.Java.practiseWebV3.forms.diaryDetailForm;
+import com.Java.practiseWebV3.forms.diaryEditForm;
 import com.Java.practiseWebV3.forms.diaryForm;
 import com.Java.practiseWebV3.forms.diaryWriteForm;
 import com.Java.practiseWebV3.services.DiaryServices;
@@ -22,26 +23,18 @@ import jakarta.servlet.http.HttpSession;
 
 @Controller
 public class DiaryController {
-
-    private final LoginServices loginServices;
 	
 	String PG003 = Constant.PG003;
 	String PG004 = Constant.PG004;
 	String PG005 = Constant.PG005;
+	String PG006 = Constant.PG006;
 	String SYSERROR = Constant.SYSERROR;
 	String className = this.getClass().getSimpleName();
 	
 	@Autowired
 	DiaryServices diaryServices;
 	
-	
-	
 	private static final Logger logger = LoggerFactory.getLogger(LoginController.class);
-
-    DiaryController(LoginServices loginServices) {
-        this.loginServices = loginServices;
-    }
-	
 	/*
 	 * Show Diary page
 	 * 
@@ -118,10 +111,7 @@ public class DiaryController {
 		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
 		logger.info(Constant.STARTLOG, className, methodName);
 		String returnPage = PG004;
-		
 		try {
-			
-			//diaryWriteForm wf = diaryServices.nullCheck(diaryWriteform);
 			
 			int result = diaryServices.insertDiary(diaryWriteform);
 			if (result <= 0) {
@@ -135,9 +125,35 @@ public class DiaryController {
 		} catch (Exception e) {
 			logger.info(Constant.EXCEPTIONLOG, e);
 			return SYSERROR;
+		} finally {
+			logger.info(Constant.ENDLOG, className, methodName);
+			
 		}
 		
 		return returnPage;
+	}
+	
+	@GetMapping("/Diary/Edit")
+	public String showEdit (@RequestParam(value = "userName") String userName,
+							@RequestParam(value = "Id") Integer reg_id,
+							Model model, HttpServletRequest request, HttpServletRequest response) {
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		logger.info(Constant.STARTLOG, className, methodName);
+		try {
+			diaryEditForm diaryEditform = new diaryEditForm();
+			diaryEditform.setAuthor(userName);
+			diaryEditform.setReg_id(reg_id);
+			diaryEditform = diaryServices.getEditDetail(diaryEditform);
+			
+			model.addAttribute("diaryEditForm", diaryEditform);
+		} catch (Exception e) {
+			logger.info(Constant.EXCEPTIONLOG, e);
+			return SYSERROR;
+		} finally {
+			logger.info(Constant.ENDLOG, className, methodName);
+			
+		}
+		return PG006;
 	}
 	
 	@GetMapping("/Diary/Detail")
@@ -159,8 +175,10 @@ public class DiaryController {
 		} catch (Exception e) {
 			logger.info(Constant.EXCEPTIONLOG, e);
 			return SYSERROR;
+		} finally {
+			logger.info(Constant.ENDLOG, className, methodName);
+			
 		}
-		
 		model.addAttribute("diaryDetailForm", diaryDetailform2);
 		
 		return PG005;
@@ -168,9 +186,10 @@ public class DiaryController {
 	
 	
 	 @PostMapping("Diary/Delete") public String deleteEntry (diaryForm diaryform, Model model) { 
-		 String returnPage = "redirect:/Diary?session=true"; 
+		String returnPage = "redirect:/Diary?session=true"; 
+		String methodName = new Object() {}.getClass().getEnclosingMethod().getName();
+		logger.info(Constant.STARTLOG, className, methodName);
 		 try { 
-
 			 int result = diaryServices.deleteEntry(diaryform); 
 			 if (result <= 0) { 
 				 diaryForm form = diaryServices.getDiaryEntries(diaryform.getAuthor());
@@ -178,11 +197,19 @@ public class DiaryController {
 				 } else {
 					 returnPage = "redirect:/Diary?session=true"; 
 				 } 
-			 } 
+		} 
 		 catch (Exception e) {
 			 logger.info(Constant.EXCEPTIONLOG, e); return SYSERROR; 
-		 }
+		} finally {
+				logger.info(Constant.ENDLOG, className, methodName);
+				
+		}
 		 return returnPage; 
+	 }
+	 
+	 @GetMapping("/Test1")
+	 public String Test1 () {
+		 return "Test1";
 	 }
 	 
 }

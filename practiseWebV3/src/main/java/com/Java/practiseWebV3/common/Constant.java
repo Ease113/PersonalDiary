@@ -12,6 +12,8 @@ public class Constant {
 	public static String PG004 = "PG004";
 	// Diary Detail
 	public static String PG005 = "PG005";
+	// Diary Edit
+	public static String PG006 = "PG006";
 	// Diary Write - Categories list edit pop-up
 	public static String PG004EditCategories = "PG004-editCategories";
 	// Diary Write - Series list edit pop-up

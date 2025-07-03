@@ -111,7 +111,7 @@
 	                        	<td data-label="Updated Date" th:text="${diaryLineForm.upd_sys_date}" th:id="${status.index}"></td>
 	                        	<td data-label="Actions" class="entry-actions-cell">
 	                                <button type="button" class="tertiary" th:id="|Read${status.index}|" th:onclick="|location.href='@{/Diary/Detail(Id=${diaryLineForm.reg_id}, userName=${diaryForm.user_profile_name}, series=${diaryLineForm.series})}'|">Read More</button>
-	                                <button type="button" class="secondary" th:id="${status.index}">Edit</button>
+	                                <button type="button" class="secondary" th:id="${status.index}" th:onclick="|location.href='@{/Diary/Edit(Id=${diaryLineForm.reg_id}, userName=${diaryForm.user_profile_name})}'|">Edit</button>
 	                                <button type="button" class="danger" th:id="${status.index}" th:attr="onclick=|deleteSubmit('${diaryLineForm.reg_id}', '${diaryLineForm.author}')|">Delete</button>
 	                            </td>
 	                        </tr>
